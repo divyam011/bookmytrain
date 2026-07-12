@@ -40,6 +40,14 @@
             $('#toastMessage').text(msg);
             const toast = new bootstrap.Toast($('#appToast')[0]);
             toast.show();
+        },
+        debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
         }
     };
 
@@ -65,12 +73,22 @@
     /* ======================== NAVBAR ======================== */
     const Navbar = {
         init() {
-            $(window).on('scroll', Utils.debounce ? Utils.debounce(this.onScroll, 10) : this.onScroll);
+            $(window).on('scroll', Utils.debounce(this.onScroll, 10));
             this.onScroll();
+
+            // Auto-close offcanvas on mobile when clicking a nav-link
+            $('.offcanvas .nav-link').on('click', function () {
+                const offcanvasEl = document.getElementById('navOffcanvas');
+                const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+                if (offcanvasInstance) {
+                    offcanvasInstance.hide();
+                }
+            });
         },
         onScroll() {
-            $('#mainNav').toggleClass('scrolled', $(window).scrollTop() > 20);
-            $('#btnBackToTop').toggleClass('visible', $(window).scrollTop() > 400);
+            const scrollTop = $(window).scrollTop();
+            $('#mainNav').toggleClass('scrolled', scrollTop > 20);
+            $('#btnBackToTop').toggleClass('visible', scrollTop > 400);
         }
     };
 
@@ -84,11 +102,25 @@
             const today = Utils.toISODate(new Date());
             $('#journeyDate').attr('min', today);
 
-            $('#calculatorForm').on('submit', (e) => { e.preventDefault(); this.calculate(); });
+            $('#calculatorForm').on('submit', (e) => { 
+                e.preventDefault(); 
+                this.calculate(); 
+            });
             $('#btnReset').on('click', () => this.reset());
-            $('#btnToday').on('click', () => this.setDate(new Date()));
-            $('#btnTomorrow').on('click', () => this.setDate(Utils.addDays(new Date(), 1)));
-            $('#btnWeek').on('click', () => this.setDate(Utils.addDays(new Date(), 7)));
+            
+            // Shortcuts set date and immediately trigger calculation
+            $('#btnToday').on('click', () => {
+                this.setDate(new Date());
+                this.calculate();
+            });
+            $('#btnTomorrow').on('click', () => {
+                this.setDate(Utils.addDays(new Date(), 1));
+                this.calculate();
+            });
+            $('#btnWeek').on('click', () => {
+                this.setDate(Utils.addDays(new Date(), 7));
+                this.calculate();
+            });
         },
 
         setDate(date) {
@@ -97,40 +129,61 @@
 
         calculate() {
             const val = $('#journeyDate').val();
-            if (!val) { $('#journeyDate').addClass('is-invalid'); return; }
+            if (!val) { 
+                $('#journeyDate').addClass('is-invalid'); 
+                return; 
+            }
 
             const journey = new Date(val + 'T00:00:00');
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            if (journey < today) { $('#journeyDate').addClass('is-invalid'); return; }
+            if (journey < today) { 
+                $('#journeyDate').addClass('is-invalid'); 
+                return; 
+            }
 
             $('#journeyDate').removeClass('is-invalid');
 
-            // Booking date = journey date - 60 days (general advance reservation window)
-            const booking = Utils.addDays(journey, -CONFIG.ADVANCE_DAYS);
+            // Hide old results
+            $('#result-section').addClass('d-none');
+            
+            // Show skeleton loader
+            $('#skeleton-section').removeClass('d-none');
+            $('html, body').animate({ 
+                scrollTop: $('#skeleton-section').offset().top - 100 
+            }, 300);
 
-            // Booking target time: 8:00 AM IST
-            this.bookingTarget = new Date(booking);
-            this.bookingTarget.setHours(CONFIG.BOOKING_HOUR, CONFIG.BOOKING_MINUTE, 0, 0);
+            // Simulate quick premium SaaS processing
+            setTimeout(() => {
+                // Booking date = journey date - 60 days (general advance reservation window)
+                const booking = Utils.addDays(journey, -CONFIG.ADVANCE_DAYS);
 
-            // Display results
-            $('#resJourneyDate').text(Utils.formatDate(journey));
-            $('#resBookingDate').text(Utils.formatDate(booking));
-            $('#resBookingTime').text('8:00 AM IST');
+                // Booking target time: 8:00 AM IST
+                this.bookingTarget = new Date(booking);
+                this.bookingTarget.setHours(CONFIG.BOOKING_HOUR, CONFIG.BOOKING_MINUTE, 0, 0);
 
-            // Generate calendar & share links
-            Calendar.generate(booking);
-            Share.generate(journey, booking);
+                // Display results
+                $('#resJourneyDate').text(Utils.formatDate(journey));
+                $('#resBookingDate').text(Utils.formatDate(booking));
+                $('#resBookingTime').text('8:00 AM IST');
 
-            // Show result section
-            $('#result-section').removeClass('d-none');
+                // Generate calendar & share links
+                Calendar.generate(booking);
+                Share.generate(journey, booking);
 
-            // Scroll to result
-            $('html, body').animate({ scrollTop: $('#result-section').offset().top - 80 }, 400);
+                // Hide skeleton, show results
+                $('#skeleton-section').addClass('d-none');
+                $('#result-section').removeClass('d-none');
 
-            // Start countdown
-            this.startCountdown();
+                // Scroll to result
+                $('html, body').animate({ 
+                    scrollTop: $('#result-section').offset().top - 100 
+                }, 300);
+
+                // Start countdown
+                this.startCountdown();
+            }, 500);
         },
 
         startCountdown() {
@@ -175,6 +228,7 @@
             if (this.interval) clearInterval(this.interval);
             $('#journeyDate').val('').removeClass('is-invalid');
             $('#result-section').addClass('d-none');
+            $('#skeleton-section').addClass('d-none');
         }
     };
 
@@ -186,7 +240,7 @@
             const endH = startH;
             const endM = startM + CONFIG.EVENT_DURATION_MIN;
             const title = encodeURIComponent(CONFIG.EVENT_TITLE);
-            const details = encodeURIComponent('Your IRCTC advance booking window opens now. Log in and book your ticket!');
+            const details = encodeURIComponent('Your BookMyTrain IRCTC advance booking window opens now. Log in and secure your tickets immediately!');
 
             const startStr = Utils.toGCalDate(bookingDate, startH, startM);
             const endStr = Utils.toGCalDate(bookingDate, endH, endM);
@@ -237,7 +291,7 @@
             a.download = 'irctc-booking-reminder.ics';
             a.click();
             URL.revokeObjectURL(url);
-            Utils.showToast('ICS file downloaded!');
+            Utils.showToast('ICS calendar file downloaded!');
         }
     };
 
@@ -246,7 +300,7 @@
         text: '',
 
         generate(journeyDate, bookingDate) {
-            this.text = `🚂 IRCTC Booking Reminder\n📅 Journey: ${Utils.formatDate(journeyDate)}\n🎫 Booking Opens: ${Utils.formatDate(bookingDate)} at 8:00 AM IST\n\nAadhaar-authenticated users get opening-day priority. Don't miss it!`;
+            this.text = `🚂 BookMyTrain Reminder\n📅 Journey Date: ${Utils.formatDate(journeyDate)}\n🎫 Booking Release: ${Utils.formatDate(bookingDate)} at 8:00 AM IST\n\nAadhaar priority window opens first. Plan your booking details:\nhttps://bookmytrain.netlify.app/`;
             const encoded = encodeURIComponent(this.text);
 
             $('#shareWhatsApp').off('click').on('click', () => window.open(`https://wa.me/?text=${encoded}`, '_blank'));
@@ -254,7 +308,7 @@
             $('#shareTwitter').off('click').on('click', () => window.open(`https://twitter.com/intent/tweet?text=${encoded}`, '_blank'));
             $('#shareFacebook').off('click').on('click', () => window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encoded}`, '_blank'));
             $('#shareCopy').off('click').on('click', () => {
-                navigator.clipboard.writeText(this.text).then(() => Utils.showToast('Copied to clipboard!'));
+                navigator.clipboard.writeText(this.text).then(() => Utils.showToast('Details copied to clipboard!'));
             });
 
             // Native Share API
@@ -270,8 +324,13 @@
     const Reveal = {
         init() {
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
-            }, { threshold: 0.1 });
+                entries.forEach(e => { 
+                    if (e.isIntersecting) { 
+                        e.target.classList.add('revealed'); 
+                        observer.unobserve(e.target); 
+                    } 
+                });
+            }, { threshold: 0.05 });
 
             document.querySelectorAll('.card-feature, .accordion-item').forEach(el => {
                 el.classList.add('reveal-item');
@@ -283,7 +342,9 @@
     /* ======================== BACK TO TOP ======================== */
     const BackToTop = {
         init() {
-            $('#btnBackToTop').on('click', () => $('html, body').animate({ scrollTop: 0 }, 400));
+            $('#btnBackToTop').on('click', () => {
+                $('html, body').animate({ scrollTop: 0 }, 400);
+            });
         }
     };
 
@@ -297,12 +358,15 @@
 
         // Close offcanvas on nav link click
         $('.offcanvas .nav-link').on('click', function () {
-            const offcanvas = bootstrap.Offcanvas.getInstance($('#navOffcanvas')[0]);
+            const offcanvasElement = $('#navOffcanvas')[0];
+            const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
             if (offcanvas) offcanvas.hide();
         });
 
-        // Tooltips
-        $('[data-bs-toggle="tooltip"]').each(function () { new bootstrap.Tooltip(this); });
+        // Initialize tooltips
+        $('[data-bs-toggle="tooltip"]').each(function () { 
+            new bootstrap.Tooltip(this); 
+        });
     });
 
 })(jQuery);

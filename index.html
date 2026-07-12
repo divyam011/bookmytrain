@@ -4,45 +4,92 @@
     <!-- Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="IRCTC Booking Planner — Know exactly when your 2026 Aadhaar-priority booking window opens. Live countdown, calendar reminders, and smart alerts.">
-    <meta name="keywords" content="IRCTC, Aadhaar, booking, train, tatkal, planner, countdown, reminder, Indian Railways, 2026">
-    <meta name="author" content="IRCTC Booking Planner">
+    <meta name="description" content="Calculate IRCTC train ticket booking opening dates instantly. View live countdowns and sync Tatkal or general quota priority reminders to Google Calendar, Apple Calendar, and Outlook.">
+    <meta name="keywords" content="IRCTC, Aadhaar priority booking, train booking calculator, tatkal booking reminder, IRCTC booking countdown, Google Calendar train reminder, Indian Railways ticket planner">
+    <meta name="author" content="BookMyTrain">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://irctcplanner.app/">
+    <link rel="canonical" href="https://bookmytrain.netlify.app/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="IRCTC Booking Planner — Never Miss a Booking">
-    <meta property="og:description" content="Know exactly when your 2026 Aadhaar-priority IRCTC booking window opens. Stay ahead of general and Tatkal rules.">
+    <meta property="og:title" content="BookMyTrain — IRCTC Booking Date Calculator &amp; Countdown Reminder">
+    <meta property="og:description" content="Know exactly when your IRCTC priority booking window opens. Sync reminders to Google Calendar and Outlook instantly.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://irctcplanner.app/">
+    <meta property="og:url" content="https://bookmytrain.netlify.app/">
     <meta property="og:image" content="assets/images/og-image.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="IRCTC Booking Planner">
-    <meta name="twitter:description" content="Never miss your 2026 Aadhaar-priority IRCTC ticket booking again.">
+    <meta name="twitter:title" content="BookMyTrain — IRCTC Booking Planner">
+    <meta name="twitter:description" content="Calculate IRCTC ticket opening windows, get live countdowns, and add calendar reminders in one click.">
 
-    <!-- Schema.org -->
+    <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "IRCTC Booking Planner",
-        "description": "Calculate IRCTC booking opening dates with live countdown and calendar reminders.",
-        "applicationCategory": "UtilityApplication",
-        "operatingSystem": "All"
-    }
+    [
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "BookMyTrain",
+            "url": "https://bookmytrain.netlify.app/",
+            "description": "Calculate IRCTC advance reservation dates under 2026 rules with live countdowns and Google Calendar reminder syncing.",
+            "applicationCategory": "UtilityApplication",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "INR"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "How far in advance does IRCTC open general bookings?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "For 2026, general reserved tickets open 60 days before the journey date at the originating station, with booking starting at 8:00 AM IST."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What are the Aadhaar priority rules?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "On opening day, Aadhaar-authenticated users get a priority booking window from 8:00 AM until midnight. Non-Aadhaar users can only book after the priority window closes."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What are the Tatkal timings and rules?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Tatkal opens one day before departure. AC classes open at 10:00 AM, non-AC classes open at 11:00 AM, and agents cannot book during the first 30 minutes of either window."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do I need Aadhaar authentication for IRCTC now?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. IRCTC users should complete Aadhaar KYC to access priority booking windows and Tatkal online bookings. Follow the IRCTC profile flow to authenticate via Aadhaar OTP."
+                    }
+                }
+            ]
+        }
+    ]
     </script>
 
-    <title>IRCTC Booking Planner — 2026 Aadhaar Priority Alerts</title>
+    <title>BookMyTrain — IRCTC Booking Date Calculator &amp; Countdown Reminder</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/bookmytrain_favicon_light.svg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,36 +109,39 @@
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" aria-label="Main navigation">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="bi bi-train-front-fill brand-icon"></i>
-                <span>BookMyTrain</span>
+                <img src="assets/images/book_my_train_lightlogo.png" alt="BookMyTrain Logo" class="brand-logo logo-light">
+                <img src="assets/images/bookmytrain_logo_dark.png" alt="BookMyTrain Logo" class="brand-logo logo-dark">
             </a>
 
             <div class="d-flex align-items-center gap-2 d-lg-none">
                 <button class="btn btn-icon theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode">
-                    <i class="bi bi-moon-fill"></i>
+                    <i class="bi bi-moon-fill" aria-hidden="true"></i>
                 </button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navOffcanvas" aria-controls="navOffcanvas" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navOffcanvas" aria-controls="navOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
 
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="navOffcanvas">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="navOffcanvas" aria-labelledby="offcanvasMenuLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <a class="navbar-brand m-0" href="#">
+                        <img src="assets/images/book_my_train_lightlogo.png" alt="BookMyTrain Logo" class="brand-logo logo-light">
+                        <img src="assets/images/bookmytrain_logo_dark.png" alt="BookMyTrain Logo" class="brand-logo logo-dark">
+                    </a>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close menu"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                         <li class="nav-item"><a class="nav-link" href="#calculator-section">Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="#features-section">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#rules-section">IRCTC Rules</a></li>
                         <li class="nav-item"><a class="nav-link" href="#faq-section">FAQ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#footer">About</a></li>
                         <li class="nav-item d-none d-lg-block">
                             <button class="btn btn-icon theme-toggle" id="themeToggleDesktop" aria-label="Toggle dark mode">
-                                <i class="bi bi-moon-fill"></i>
+                                <i class="bi bi-moon-fill" aria-hidden="true"></i>
                             </button>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                             <a class="btn btn-primary btn-nav-cta" href="#calculator-section">Check Now</a>
                         </li>
                     </ul>
@@ -102,38 +152,51 @@
 
     <!-- ======================== HERO ======================== -->
     <header class="hero-section" id="hero">
-        <div class="hero-bg">
+        <div class="hero-bg" aria-hidden="true">
             <div class="blob blob-1"></div>
             <div class="blob blob-2"></div>
             <div class="blob blob-3"></div>
         </div>
-        <div class="container hero-content">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-8 col-xl-7">
+        <div class="container hero-content text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
                     <span class="badge badge-hero mb-3">
-                        <i class="bi bi-lightning-charge-fill"></i> Free &amp; Instant
+                        <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i> Free &amp; Instant Planner
                     </span>
                     <h1 class="hero-title">Never Miss Your IRCTC Ticket Booking Again</h1>
-                    <p class="hero-subtitle">Know exactly when general booking opens under the new 2026 Aadhaar-priority rules.</p>
+                    <p class="hero-subtitle">Instantly calculate ticket release dates under the new 2026 Aadhaar-priority window. Sync direct alerts to your calendar.</p>
                     <div class="hero-cta">
                         <a href="#calculator-section" class="btn btn-primary btn-lg btn-hero">
-                            <i class="bi bi-calendar-check"></i> Calculate Booking Date
+                            <i class="bi bi-calendar-check" aria-hidden="true"></i> Calculate Booking Date
                         </a>
                     </div>
-                    <div class="hero-stats mt-5">
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="60">60</span>
-                            <span class="stat-label">Days Advance</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">8:00 AM</span>
-                            <span class="stat-label">Booking Opens</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">Accurate</span>
+
+                    <!-- Interactive Dashboard Preview (Aesthetic Trust Indicator) -->
+                    <div class="hero-visual mt-5 text-start">
+                        <div class="row align-items-center g-3">
+                            <div class="col-md-7">
+                                <h4 class="mb-2" style="font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em;">Aadhaar-Priority Booking Tracker</h4>
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.75rem; font-weight: 600;">Active Session</span>
+                                    <span class="text-secondary" style="font-size: 0.8rem;">8:00 AM Release Queue</span>
+                                </div>
+                                <p class="text-secondary mb-0" style="font-size: 0.875rem;">Computes advanced openings under the 60-day reservation guidelines. Aadhaar users secure tickets 16 hours ahead of standard queues.</p>
+                            </div>
+                            <div class="col-md-5 border-start-md">
+                                <div class="hero-stats justify-content-start gap-4">
+                                    <div class="stat-item text-start p-0">
+                                        <span class="stat-number">60 Days</span>
+                                        <span class="stat-label">Advance limit</span>
+                                    </div>
+                                    <div class="stat-item text-start p-0">
+                                        <span class="stat-number">100%</span>
+                                        <span class="stat-label">Accuracy rate</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -154,23 +217,25 @@
                         <div class="card card-calculator">
                             <div class="card-body">
                                 <form id="calculatorForm" novalidate>
-                                    <label for="journeyDate" class="form-label">Journey Date</label>
-                                    <input type="date" class="form-control form-control-lg" id="journeyDate" required aria-describedby="journeyDateHelp">
-                                    <div class="invalid-feedback">Please select a valid future date.</div>
-                                    <div id="journeyDateHelp" class="form-text">IRCTC opens general quota bookings 60 days in advance, with Aadhaar-authenticated users getting first-day priority.</div>
-
-                                    <div class="shortcut-btns mt-3">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnToday">Today</button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnTomorrow">Tomorrow</button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnWeek">+7 Days</button>
+                                    <div class="mb-3">
+                                        <label for="journeyDate" class="form-label">Journey Date</label>
+                                        <input type="date" class="form-control form-control-lg" id="journeyDate" required aria-describedby="journeyDateHelp">
+                                        <div class="invalid-feedback" id="journeyDateError">Please select a valid future date.</div>
+                                        <div id="journeyDateHelp" class="form-text">IRCTC opens general quota bookings 60 days in advance, with Aadhaar-authenticated users getting opening-day priority.</div>
                                     </div>
 
-                                    <div class="d-grid gap-2 mt-4">
+                                    <div class="shortcut-btns mb-4" aria-label="Quick date selectors">
+                                        <button type="button" class="btn btn-sm" id="btnToday">Today</button>
+                                        <button type="button" class="btn btn-sm" id="btnTomorrow">Tomorrow</button>
+                                        <button type="button" class="btn btn-sm" id="btnWeek">+7 Days</button>
+                                    </div>
+
+                                    <div class="d-grid gap-2">
                                         <button type="submit" class="btn btn-primary btn-lg" id="btnCalculate">
-                                            <i class="bi bi-calculator"></i> Calculate
+                                            <i class="bi bi-calculator" aria-hidden="true"></i> Calculate Opening Date
                                         </button>
                                         <button type="button" class="btn btn-outline-secondary" id="btnReset">
-                                            <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                            <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset Form
                                         </button>
                                     </div>
                                 </form>
@@ -181,8 +246,28 @@
             </div>
         </section>
 
+        <!-- ======================== SKELETON LOADER ======================== -->
+        <section class="section skeleton-section d-none" id="skeleton-section" aria-hidden="true">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <div class="skeleton-card skeleton-pulse">
+                            <div class="skeleton-title"></div>
+                            <div class="skeleton-grid">
+                                <div class="skeleton-box"></div>
+                                <div class="skeleton-box"></div>
+                                <div class="skeleton-box"></div>
+                            </div>
+                            <div class="skeleton-countdown"></div>
+                            <div class="skeleton-buttons"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ======================== RESULT ======================== -->
-        <section class="section result-section d-none" id="result-section">
+        <section class="section result-section d-none" id="result-section" aria-live="polite">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
@@ -229,46 +314,46 @@
                                             <span class="countdown-text">Seconds</span>
                                         </div>
                                     </div>
-                                    <div class="countdown-status" id="countdownStatus"></div>
+                                    <div class="countdown-status" id="countdownStatus" role="status"></div>
                                 </div>
 
                                 <!-- Calendar & Share -->
-                                <div class="action-buttons mt-4">
-                                    <h5 class="action-title">Add Reminder</h5>
-                                    <div class="calendar-btns">
-                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calGoogle" target="_blank" rel="noopener" aria-label="Add to Google Calendar">
-                                            <i class="bi bi-google"></i> Google
+                                <div class="action-buttons mt-5">
+                                    <h4 class="action-title mb-3">Add Reminder to Calendar</h4>
+                                    <div class="calendar-btns mb-4">
+                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calGoogle" target="_blank" rel="noopener" aria-label="Add booking reminder to Google Calendar">
+                                            <i class="bi bi-google" aria-hidden="true"></i> Google
                                         </a>
-                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calOutlook" target="_blank" rel="noopener" aria-label="Add to Outlook">
-                                            <i class="bi bi-microsoft"></i> Outlook
+                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calOutlook" target="_blank" rel="noopener" aria-label="Add booking reminder to Outlook Calendar">
+                                            <i class="bi bi-microsoft" aria-hidden="true"></i> Outlook
                                         </a>
-                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calYahoo" target="_blank" rel="noopener" aria-label="Add to Yahoo Calendar">
-                                            <i class="bi bi-envelope"></i> Yahoo
+                                        <a href="#" class="btn btn-outline-primary btn-sm" id="calYahoo" target="_blank" rel="noopener" aria-label="Add booking reminder to Yahoo Calendar">
+                                            <i class="bi bi-envelope" aria-hidden="true"></i> Yahoo
                                         </a>
-                                        <button class="btn btn-outline-primary btn-sm" id="calICS" aria-label="Download ICS file">
-                                            <i class="bi bi-download"></i> ICS
+                                        <button class="btn btn-outline-primary btn-sm" id="calICS" aria-label="Download ICS calendar reminder file">
+                                            <i class="bi bi-download" aria-hidden="true"></i> ICS File
                                         </button>
                                     </div>
 
-                                    <h5 class="action-title mt-4">Share</h5>
+                                    <h4 class="action-title mb-3">Share Booking Details</h4>
                                     <div class="share-btns">
-                                        <button class="btn btn-outline-success btn-sm" id="shareWhatsApp" aria-label="Share on WhatsApp">
-                                            <i class="bi bi-whatsapp"></i>
+                                        <button class="btn btn-outline-success" id="shareWhatsApp" aria-label="Share on WhatsApp">
+                                            <i class="bi bi-whatsapp" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-outline-info btn-sm" id="shareTelegram" aria-label="Share on Telegram">
-                                            <i class="bi bi-telegram"></i>
+                                        <button class="btn btn-outline-info" id="shareTelegram" aria-label="Share on Telegram">
+                                            <i class="bi bi-telegram" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-outline-primary btn-sm" id="shareTwitter" aria-label="Share on Twitter">
-                                            <i class="bi bi-twitter-x"></i>
+                                        <button class="btn btn-outline-primary" id="shareTwitter" aria-label="Share on X">
+                                            <i class="bi bi-twitter-x" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-outline-primary btn-sm" id="shareFacebook" aria-label="Share on Facebook">
-                                            <i class="bi bi-facebook"></i>
+                                        <button class="btn btn-outline-primary" id="shareFacebook" aria-label="Share on Facebook">
+                                            <i class="bi bi-facebook" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-outline-secondary btn-sm" id="shareCopy" aria-label="Copy link">
-                                            <i class="bi bi-clipboard"></i>
+                                        <button class="btn btn-outline-secondary" id="shareCopy" aria-label="Copy booking reminder link to clipboard">
+                                            <i class="bi bi-clipboard" aria-hidden="true"></i> Copy Reminder Details
                                         </button>
-                                        <button class="btn btn-outline-dark btn-sm d-none" id="shareNative" aria-label="Share">
-                                            <i class="bi bi-share"></i>
+                                        <button class="btn btn-outline-dark d-none" id="shareNative" aria-label="Open mobile sharing overlay">
+                                            <i class="bi bi-share" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -285,44 +370,44 @@
             <div class="container">
                 <div class="section-header text-center mb-5">
                     <h2 class="section-title">Why BookMyTrain?</h2>
-                    <p class="section-subtitle">Everything you need to never miss a booking window</p>
+                    <p class="section-subtitle">A premium toolkit designed to keep you ahead of IRCTC ticket booking rushes</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-sm-6 col-lg-3">
-                        <div class="card card-feature">
+                        <article class="card card-feature">
                             <div class="card-body text-center">
-                                <div class="feature-icon"><i class="bi bi-stopwatch"></i></div>
+                                <div class="feature-icon" aria-hidden="true"><i class="bi bi-stopwatch"></i></div>
                                 <h5>Live Countdown</h5>
-                                <p>Real-time countdown to your booking window, accurate to the second.</p>
+                                <p>Real-time booking release countdowns, precise down to the absolute second.</p>
                             </div>
-                        </div>
+                        </article>
                     </div>
                     <div class="col-sm-6 col-lg-3">
-                        <div class="card card-feature">
+                        <article class="card card-feature">
                             <div class="card-body text-center">
-                                <div class="feature-icon"><i class="bi bi-bell"></i></div>
-                                <h5>Calendar Reminder</h5>
-                                <p>One-click add to Google, Outlook, Yahoo, or download ICS.</p>
+                                <div class="feature-icon" aria-hidden="true"><i class="bi bi-bell"></i></div>
+                                <h5>Calendar Alerts</h5>
+                                <p>Sync dates effortlessly to Google Calendar, Outlook, or via raw ICS files.</p>
                             </div>
-                        </div>
+                        </article>
                     </div>
                     <div class="col-sm-6 col-lg-3">
-                        <div class="card card-feature">
+                        <article class="card card-feature">
                             <div class="card-body text-center">
-                                <div class="feature-icon"><i class="bi bi-moon-stars"></i></div>
-                                <h5>Dark Mode</h5>
-                                <p>Beautiful dark theme that's easy on the eyes, day or night.</p>
+                                <div class="feature-icon" aria-hidden="true"><i class="bi bi-shield-check"></i></div>
+                                <h5>Priority Checks</h5>
+                                <p>Stay optimized for the new Aadhaar authentication booking priority windows.</p>
                             </div>
-                        </div>
+                        </article>
                     </div>
                     <div class="col-sm-6 col-lg-3">
-                        <div class="card card-feature">
+                        <article class="card card-feature">
                             <div class="card-body text-center">
-                                <div class="feature-icon"><i class="bi bi-phone"></i></div>
-                                <h5>Mobile Friendly</h5>
-                                <p>Works perfectly on every device — phone, tablet, or desktop.</p>
+                                <div class="feature-icon" aria-hidden="true"><i class="bi bi-phone"></i></div>
+                                <h5>Mobile Optimized</h5>
+                                <p>Responsive touch layout that acts and renders like a native mobile booking app.</p>
                             </div>
-                        </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -332,19 +417,19 @@
         <section class="section rules-section" id="rules-section">
             <div class="container">
                 <div class="section-header text-center mb-5">
-                    <h2 class="section-title">IRCTC Rules for 2026</h2>
-                    <p class="section-subtitle">A clear breakdown of the new Aadhaar-first booking changes and Tatkal requirements.</p>
+                    <h2 class="section-title">IRCTC Rules Overview</h2>
+                    <p class="section-subtitle">Essential guidelines for Aadhaar verification priorities and Tatkal timelines.</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-6">
                         <div class="card card-feature h-100">
                             <div class="card-body">
-                                <h5 class="mb-3">General Advance Reservation</h5>
+                                <h4 class="h5 mb-3"><i class="bi bi-info-circle text-primary me-2"></i>General Advance Reservation</h4>
                                 <ul class="list-unstyled">
-                                    <li>• General reserved tickets open 60 days before journey date.</li>
-                                    <li>• Opening day priority window for Aadhaar-authenticated users.</li>
-                                    <li>• From Jan 12, 2026, Aadhaar users can book from 8:00 AM until midnight on opening day.</li>
-                                    <li>• Non-Aadhaar users can only book after the priority window closes.</li>
+                                    <li>General reserved booking windows open exactly 60 days before travel date.</li>
+                                    <li>Aadhaar-linked accounts gain opening priority from 8:00 AM to 12:00 PM on Day 1.</li>
+                                    <li>Non-Aadhaar accounts can book starting afternoon shifts after priority queue clearings.</li>
+                                    <li>Verification is completed instantly online within the official IRCTC portal.</li>
                                 </ul>
                             </div>
                         </div>
@@ -352,26 +437,24 @@
                     <div class="col-lg-6">
                         <div class="card card-feature h-100">
                             <div class="card-body">
-                                <h5 class="mb-3">Tatkal Booking Rules</h5>
+                                <h4 class="h5 mb-3"><i class="bi bi-lightning text-primary me-2"></i>Tatkal Reservation Rules</h4>
                                 <ul class="list-unstyled">
-                                    <li>• Tatkal opens one day before departure, excluding journey date.</li>
-                                    <li>• Aadhaar authentication is mandatory for online Tatkal booking.</li>
-                                    <li>• Aadhaar OTP is required for all Tatkal bookings, including counters and agents.</li>
-                                    <li>• AC Tatkal opens at 10:00 AM; Sleeper/Second Sitting opens at 11:00 AM.</li>
-                                    <li>• Agents cannot book in the first 30 minutes of Tatkal opening.</li>
-                                    <li>• Maximum four passengers per PNR; concessions are not allowed.</li>
+                                    <li>Tatkal slots open exactly 1 day before journey date from source station.</li>
+                                    <li>AC quota tickets open at 10:00 AM IST; Non-AC quotas open at 11:00 AM IST.</li>
+                                    <li>OTP authentication is strictly required during checkout for all online bookings.</li>
+                                    <li>A maximum of 4 passengers are allowed per PNR for rapid checkouts.</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row g-4 mt-4">
+                <div class="row g-4 mt-3">
                     <div class="col-lg-12">
                         <div class="card card-feature">
                             <div class="card-body">
-                                <h5 class="mb-3">Additional Notes</h5>
-                                <p class="mb-2">• Reservation charts are generally prepared 8 hours before departure. Trains departing between 5 AM and 2 PM have the first chart prepared at 9 PM the previous night.</p>
-                                <p>• Offline bookings at computerized PRS counters are not affected by the Aadhaar priority rules and continue under existing counter rules.</p>
+                                <h4 class="h5 mb-3"><i class="bi bi-lightbulb text-primary me-2"></i>Important Travel Advisories</h4>
+                                <p class="mb-2"><strong>Chart Timings:</strong> Booking charts are finalized 4 hours prior to train departure times. Early morning trains (departures between 5:00 AM and 2:00 PM) have their primary chart scheduled at 9:00 PM the prior evening.</p>
+                                <p class="mb-0"><strong>Counter Bookings:</strong> Bookings processed offline through physical computerized PRS reservation counters are unaffected by Aadhaar rules and function normally.</p>
                             </div>
                         </div>
                     </div>
@@ -386,46 +469,47 @@
                     <div class="col-lg-8">
                         <div class="section-header text-center mb-5">
                             <h2 class="section-title">Frequently Asked Questions</h2>
+                            <p class="section-subtitle">Everything you need to know about reserving train tickets</p>
                         </div>
                         <div class="accordion" id="faqAccordion">
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
                                         How far in advance does IRCTC open general bookings?
                                     </button>
-                                </h2>
-                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">For 2026, general reserved tickets open 60 days before the journey date at the originating station, with booking starting at 8:00 AM IST.</div>
+                                </h3>
+                                <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">For general bookings, reserved train seats open exactly 60 days before the journey date (excluding travel date itself) starting at 8:00 AM IST.</div>
                                 </div>
                             </div>
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
                                         What are the Aadhaar priority rules?
                                     </button>
-                                </h2>
-                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">On opening day, Aadhaar-authenticated users get a priority booking window from 8:00 AM until midnight. Non-Aadhaar users can only book after the priority window closes.</div>
+                                </h3>
+                                <div id="faq2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">To prioritize genuine travelers, IRCTC gives accounts with completed Aadhaar KYC authentication first priority on opening day. Non-authenticated users can book after these initial queues clear.</div>
                                 </div>
                             </div>
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header" id="headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
                                         What are the Tatkal timings and rules?
                                     </button>
-                                </h2>
-                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">Tatkal opens one day before departure. AC classes open at 10:00 AM, non-AC classes open at 11:00 AM, and agents cannot book during the first 30 minutes of either window.</div>
+                                </h3>
+                                <div id="faq3" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">Tatkal booking opens at 10:00 AM IST for AC classes and 11:00 AM IST for non-AC classes, exactly one day prior to the train's departure. Authorized travel agents cannot purchase tickets in the first 30 minutes.</div>
                                 </div>
                             </div>
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header" id="headingFour">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
-                                        Do I need Aadhaar authentication for IRCTC now?
+                                        Do I need Aadhaar verification for IRCTC?
                                     </button>
-                                </h2>
-                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">Yes. IRCTC users should complete Aadhaar KYC to access priority booking windows and Tatkal online bookings. Follow the IRCTC profile flow to authenticate via Aadhaar OTP.</div>
+                                </h3>
+                                <div id="faq4" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">While optional for simple off-season routes, Aadhaar verification is highly recommended for festival rushes and is mandatory for booking online Tatkal quotas, helping curb ticket scalping.</div>
                                 </div>
                             </div>
                         </div>
@@ -441,14 +525,17 @@
         <div class="container">
             <div class="row align-items-center gy-3">
                 <div class="col-md-4 text-center text-md-start">
-                    <span class="footer-brand"><i class="bi bi-train-front-fill"></i> BookMyTrain</span>
+                    <a class="footer-brand" href="#">
+                        <img src="assets/images/book_my_train_lightlogo.png" alt="BookMyTrain Logo" class="footer-logo logo-light">
+                        <img src="assets/images/bookmytrain_logo_dark.png" alt="BookMyTrain Logo" class="footer-logo logo-dark">
+                    </a>
                 </div>
                 <div class="col-md-4 text-center">
-                    <div class="footer-links">
-                        <a href="#">Privacy</a>
-                        <a href="#">Terms</a>
-                        <a href="#">Contact</a>
-                    </div>
+                    <nav class="footer-links" aria-label="Footer navigation">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Contact Us</a>
+                    </nav>
                 </div>
                 <div class="col-md-4 text-center text-md-end">
                     <p class="footer-copy mb-0">&copy; 2026 BookMyTrain. All rights reserved.</p>
@@ -458,23 +545,26 @@
     </footer>
 
     <!-- Back to Top -->
-    <button class="btn btn-primary btn-back-to-top" id="btnBackToTop" aria-label="Back to top">
-        <i class="bi bi-chevron-up"></i>
+    <button class="btn btn-primary btn-back-to-top" id="btnBackToTop" aria-label="Scroll back to top">
+        <i class="bi bi-chevron-up" aria-hidden="true"></i>
     </button>
 
-    <!-- Toast Container -->
+    <!-- Sleek Toast Notification Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer">
-        <div class="toast align-items-center text-bg-success border-0" id="appToast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body" id="toastMessage">Action completed!</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="toast align-items-center border-0" id="appToast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex p-2 align-items-center">
+                <div class="toast-icon-wrapper me-2">
+                    <i class="bi bi-check-lg" id="toastIcon" aria-hidden="true"></i>
+                </div>
+                <div class="toast-body flex-grow-1" id="toastMessage" style="font-weight: 500;">Action completed!</div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close message"></button>
             </div>
         </div>
     </div>
 
     <!-- jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="js/script.js"></script>
