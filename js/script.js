@@ -12,7 +12,8 @@
         BOOKING_HOUR: 8,
         BOOKING_MINUTE: 0,
         EVENT_TITLE: 'IRCTC 60-Day Booking Opens',
-        EVENT_DURATION_MIN: 25 // 8:00 - 8:25
+        EVENT_DURATION_MIN: 25, // 8:00 - 8:25
+        DEFAULT_TITLE: 'BookMyTrain — IRCTC Booking Date Calculator & Countdown Reminder'
     };
 
     /* ======================== UTILITIES ======================== */
@@ -96,6 +97,7 @@
     const Calculator = {
         interval: null,
         bookingTarget: null,
+        pipWindowRef: null,
 
         init() {
             // Set min date to today
@@ -121,6 +123,85 @@
                 this.setDate(Utils.addDays(new Date(), 7));
                 this.calculate();
             });
+
+            // Picture-in-Picture Support Check & Event Handler
+            if ('documentPictureInPicture' in window) {
+                $('#btnPiP').removeClass('d-none').off('click').on('click', () => this.togglePiP());
+            }
+        },
+
+        async togglePiP() {
+            // If already open, close it
+            if (window.documentPictureInPicture && window.documentPictureInPicture.window) {
+                window.documentPictureInPicture.window.close();
+                return;
+            }
+
+            try {
+                // Request a small floating window
+                const pipWindow = await window.documentPictureInPicture.requestWindow({
+                    width: 300,
+                    height: 150
+                });
+
+                this.pipWindowRef = pipWindow;
+
+                // Mark button as active
+                $('#btnPiP').html('<i class="bi bi-window-x"></i> Unpin Timer').addClass('btn-primary').removeClass('btn-outline-primary');
+
+                // Get theme & styles
+                const activeTheme = $('html').attr('data-bs-theme') || 'light';
+                pipWindow.document.documentElement.setAttribute('data-bs-theme', activeTheme);
+
+                // Copy styling sheets to PiP window
+                Array.from(document.styleSheets).forEach((styleSheet) => {
+                    try {
+                        const cssRules = Array.from(styleSheet.cssRules).map((rule) => rule.cssText).join('');
+                        const style = document.createElement('style');
+                        style.textContent = cssRules;
+                        pipWindow.document.head.appendChild(style);
+                    } catch (e) {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = styleSheet.href;
+                        pipWindow.document.head.appendChild(link);
+                    }
+                });
+
+                // Generate inner HTML structure
+                const wrapper = pipWindow.document.createElement('div');
+                wrapper.className = 'd-flex flex-column align-items-center justify-content-center text-center p-3';
+                wrapper.style.height = '100vh';
+                wrapper.style.background = 'var(--bg)';
+                wrapper.style.margin = '0';
+                wrapper.style.overflow = 'hidden';
+
+                const logoSrc = activeTheme === 'dark' ? 'assets/images/bookmytrain_logo_dark.png' : 'assets/images/book_my_train_lightlogo.png';
+                const journeyDateVal = $('#resJourneyDate').text();
+
+                wrapper.innerHTML = `
+                    <div class="mb-2">
+                        <img src="${logoSrc}" alt="BookMyTrain Logo" style="height: 22px; width: auto; object-fit: contain;">
+                    </div>
+                    <div style="font-size: 0.725rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; margin-bottom: 2px;">Booking Opens In</div>
+                    <div id="pipTimerDisplay" class="fw-bold text-primary" style="font-size: 1.6rem; font-family: var(--font-mono); letter-spacing: -0.02em;">00:00:00:00</div>
+                    <div id="pipJourneyDate" style="font-size: 0.65rem; color: var(--text-muted); margin-top: 2px;">Journey Date: ${journeyDateVal}</div>
+                `;
+                pipWindow.document.body.appendChild(wrapper);
+
+                // Monitor when PiP closes
+                pipWindow.addEventListener('pagehide', () => {
+                    this.pipWindowRef = null;
+                    $('#btnPiP').html('<i class="bi bi-window"></i> Pin Floating Timer').removeClass('btn-primary').addClass('btn-outline-primary');
+                });
+
+                // Sync current time values immediately
+                this.updateCountdown();
+
+            } catch (error) {
+                console.error('Failed to initialize Picture-in-Picture window:', error);
+                Utils.showToast('Could not open floating timer.');
+            }
         },
 
         setDate(date) {
@@ -172,6 +253,14 @@
                 $('.card-result').removeClass('booking-passed');
                 $('#bookingPassedAlert').addClass('d-none');
 
+                // If PiP is open, update journey date inside it
+                if (this.pipWindowRef) {
+                    const journeyDateEl = this.pipWindowRef.document.getElementById('pipJourneyDate');
+                    if (journeyDateEl) {
+                        journeyDateEl.textContent = `Journey Date: ${Utils.formatDate(journey)}`;
+                    }
+                }
+
                 // Generate calendar & share links
                 Calendar.generate(booking);
                 Share.generate(journey, booking);
@@ -200,6 +289,16 @@
             const now = new Date();
             const diff = this.bookingTarget - now;
 
+            const days = Math.floor(Math.max(0, diff) / 86400000);
+            const hours = Math.floor((Math.max(0, diff) % 86400000) / 3600000);
+            const minutes = Math.floor((Math.max(0, diff) % 3600000) / 60000);
+            const seconds = Math.floor((Math.max(0, diff) % 60000) / 1000);
+
+            const daysText = Utils.pad(days);
+            const hoursText = Utils.pad(hours);
+            const minutesText = Utils.pad(minutes);
+            const secondsText = Utils.pad(seconds);
+
             if (diff <= 0) {
                 clearInterval(this.interval);
                 $('#cdDays, #cdHours, #cdMinutes, #cdSeconds').text('00');
@@ -209,18 +308,36 @@
                 $('#bookingPassedAlert').removeClass('d-none');
 
                 $('#countdownStatus').html('<span class="text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> Booking Opened / Passed! Check ASAP!</span>');
+
+                // Restore default tab title
+                document.title = CONFIG.DEFAULT_TITLE;
+
+                // Sync PiP window if active
+                if (this.pipWindowRef) {
+                    const timerEl = this.pipWindowRef.document.getElementById('pipTimerDisplay');
+                    if (timerEl) {
+                        timerEl.textContent = '00:00:00:00';
+                        timerEl.style.color = 'var(--danger)';
+                    }
+                }
                 return;
             }
 
-            const days = Math.floor(diff / 86400000);
-            const hours = Math.floor((diff % 86400000) / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
+            this.animateUnit('#cdDays', daysText);
+            this.animateUnit('#cdHours', hoursText);
+            this.animateUnit('#cdMinutes', minutesText);
+            this.animateUnit('#cdSeconds', secondsText);
 
-            this.animateUnit('#cdDays', Utils.pad(days));
-            this.animateUnit('#cdHours', Utils.pad(hours));
-            this.animateUnit('#cdMinutes', Utils.pad(minutes));
-            this.animateUnit('#cdSeconds', Utils.pad(seconds));
+            // Update browser tab title dynamically with live values
+            document.title = `[${daysText}d ${hoursText}h] BookMyTrain`;
+
+            // Sync PiP window text if active
+            if (this.pipWindowRef) {
+                const timerEl = this.pipWindowRef.document.getElementById('pipTimerDisplay');
+                if (timerEl) {
+                    timerEl.textContent = `${daysText}:${hoursText}:${minutesText}:${secondsText}`;
+                }
+            }
 
             $('#countdownStatus').text('').removeClass('open passed');
         },
@@ -235,6 +352,16 @@
 
         reset() {
             if (this.interval) clearInterval(this.interval);
+
+            // Close PiP window if open
+            if (this.pipWindowRef) {
+                this.pipWindowRef.close();
+                this.pipWindowRef = null;
+            }
+
+            // Restore base tab title
+            document.title = CONFIG.DEFAULT_TITLE;
+
             $('#journeyDate').val('').removeClass('is-invalid');
             $('#result-section').addClass('d-none');
             $('#skeleton-section').addClass('d-none');
@@ -376,6 +503,15 @@
         $('[data-bs-toggle="tooltip"]').each(function () {
             new bootstrap.Tooltip(this);
         });
+
+        // Register PWA service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then((reg) => {
+                console.log('Service Worker registered successfully with scope:', reg.scope);
+            }).catch((err) => {
+                console.error('Service Worker registration failed:', err);
+            });
+        }
     });
 
 })(jQuery);
