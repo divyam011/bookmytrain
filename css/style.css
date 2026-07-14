@@ -904,6 +904,12 @@ html[data-bs-theme="dark"] .logo-dark {
     color: var(--text-muted);
 }
 
+.footer-crafted {
+    font-size: .8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
 /* ======================== BACK TO TOP ======================== */
 .btn-back-to-top {
     position: fixed;
