@@ -29,7 +29,7 @@
         },
         toGCalDate(date, h, m) {
             // Format: YYYYMMDDTHHmmSS
-            return `${date.getFullYear()}${Utils.pad(date.getMonth()+1)}${Utils.pad(date.getDate())}T${Utils.pad(h)}${Utils.pad(m)}00`;
+            return `${date.getFullYear()}${Utils.pad(date.getMonth() + 1)}${Utils.pad(date.getDate())}T${Utils.pad(h)}${Utils.pad(m)}00`;
         },
         addDays(date, days) {
             const d = new Date(date);
@@ -102,12 +102,12 @@
             const today = Utils.toISODate(new Date());
             $('#journeyDate').attr('min', today);
 
-            $('#calculatorForm').on('submit', (e) => { 
-                e.preventDefault(); 
-                this.calculate(); 
+            $('#calculatorForm').on('submit', (e) => {
+                e.preventDefault();
+                this.calculate();
             });
             $('#btnReset').on('click', () => this.reset());
-            
+
             // Shortcuts set date and immediately trigger calculation
             $('#btnToday').on('click', () => {
                 this.setDate(new Date());
@@ -129,29 +129,29 @@
 
         calculate() {
             const val = $('#journeyDate').val();
-            if (!val) { 
-                $('#journeyDate').addClass('is-invalid'); 
-                return; 
+            if (!val) {
+                $('#journeyDate').addClass('is-invalid');
+                return;
             }
 
             const journey = new Date(val + 'T00:00:00');
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            if (journey < today) { 
-                $('#journeyDate').addClass('is-invalid'); 
-                return; 
+            if (journey < today) {
+                $('#journeyDate').addClass('is-invalid');
+                return;
             }
 
             $('#journeyDate').removeClass('is-invalid');
 
             // Hide old results
             $('#result-section').addClass('d-none');
-            
+
             // Show skeleton loader
             $('#skeleton-section').removeClass('d-none');
-            $('html, body').animate({ 
-                scrollTop: $('#skeleton-section').offset().top - 100 
+            $('html, body').animate({
+                scrollTop: $('#skeleton-section').offset().top - 100
             }, 300);
 
             // Simulate quick premium SaaS processing
@@ -168,6 +168,10 @@
                 $('#resBookingDate').text(Utils.formatDate(booking));
                 $('#resBookingTime').text('8:00 AM IST');
 
+                // Reset card warning classes and hide warning banner
+                $('.card-result').removeClass('booking-passed');
+                $('#bookingPassedAlert').addClass('d-none');
+
                 // Generate calendar & share links
                 Calendar.generate(booking);
                 Share.generate(journey, booking);
@@ -177,8 +181,8 @@
                 $('#result-section').removeClass('d-none');
 
                 // Scroll to result
-                $('html, body').animate({ 
-                    scrollTop: $('#result-section').offset().top - 100 
+                $('html, body').animate({
+                    scrollTop: $('#result-section').offset().top - 10
                 }, 300);
 
                 // Start countdown
@@ -199,7 +203,12 @@
             if (diff <= 0) {
                 clearInterval(this.interval);
                 $('#cdDays, #cdHours, #cdMinutes, #cdSeconds').text('00');
-                $('#countdownStatus').text('🎉 Booking is OPEN! Go book now!').addClass('open').removeClass('passed');
+
+                // Show red warning design
+                $('.card-result').addClass('booking-passed');
+                $('#bookingPassedAlert').removeClass('d-none');
+
+                $('#countdownStatus').html('<span class="text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> Booking Opened / Passed! Check ASAP!</span>');
                 return;
             }
 
@@ -314,7 +323,7 @@
             // Native Share API
             if (navigator.share) {
                 $('#shareNative').removeClass('d-none').off('click').on('click', () => {
-                    navigator.share({ title: CONFIG.EVENT_TITLE, text: this.text }).catch(() => {});
+                    navigator.share({ title: CONFIG.EVENT_TITLE, text: this.text }).catch(() => { });
                 });
             }
         }
@@ -324,11 +333,11 @@
     const Reveal = {
         init() {
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(e => { 
-                    if (e.isIntersecting) { 
-                        e.target.classList.add('revealed'); 
-                        observer.unobserve(e.target); 
-                    } 
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('revealed');
+                        observer.unobserve(e.target);
+                    }
                 });
             }, { threshold: 0.05 });
 
@@ -364,8 +373,8 @@
         });
 
         // Initialize tooltips
-        $('[data-bs-toggle="tooltip"]').each(function () { 
-            new bootstrap.Tooltip(this); 
+        $('[data-bs-toggle="tooltip"]').each(function () {
+            new bootstrap.Tooltip(this);
         });
     });
 
