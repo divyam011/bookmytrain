@@ -8,13 +8,13 @@
     <meta name="keywords" content="IRCTC, Aadhaar priority booking, train booking calculator, tatkal booking reminder, IRCTC booking countdown, Google Calendar train reminder, Indian Railways ticket planner">
     <meta name="author" content="BookMyTrain">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://bookmytrain.netlify.app/">
+    <link rel="canonical" href="https://book-mytrain.netlify.app/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="BookMyTrain — IRCTC Booking Date Calculator &amp; Countdown Reminder">
     <meta property="og:description" content="Know exactly when your IRCTC priority booking window opens. Sync reminders to Google Calendar and Outlook instantly.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bookmytrain.netlify.app/">
+    <meta property="og:url" content="https://book-mytrain.netlify.app/">
     <meta property="og:image" content="assets/images/og-image.png">
 
     <!-- Twitter Card -->
@@ -29,7 +29,7 @@
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "BookMyTrain",
-            "url": "https://bookmytrain.netlify.app/",
+            "url": "https://book-mytrain.netlify.app/",
             "description": "Calculate IRCTC advance reservation dates under 2026 rules with live countdowns and Google Calendar reminder syncing.",
             "applicationCategory": "UtilityApplication",
             "operatingSystem": "All",
@@ -83,8 +83,10 @@
 
     <title>BookMyTrain — IRCTC Booking Date Calculator &amp; Countdown Reminder</title>
 
-    <!-- Favicon -->
+    <!-- Favicon & PWA Manifest -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon/bookmytrain_favicon_light.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -331,6 +333,9 @@
                                         </div>
                                     </div>
                                     <div class="countdown-status" id="countdownStatus" role="status"></div>
+                                    <button class="btn btn-sm btn-outline-primary mt-3 d-none" id="btnPiP" aria-label="Pin countdown as always on top">
+                                        <i class="bi bi-window" aria-hidden="true"></i> Pin Floating Timer
+                                    </button>
                                 </div>
 
                                 <!-- Calendar & Share -->

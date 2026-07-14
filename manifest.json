@@ -1,0 +1,23 @@
+{
+  "name": "BookMyTrain — IRCTC Booking Date Calculator",
+  "short_name": "BookMyTrain",
+  "description": "Calculate IRCTC advance ticket reservation dates instantly, set live countdowns and sync calendar alerts.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/favicon/bookmytrain_favicon_light.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/bookmytrain_logo_dark.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
