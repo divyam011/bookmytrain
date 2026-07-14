@@ -628,6 +628,90 @@ html[data-bs-theme="dark"] .logo-dark {
     color: var(--text-primary);
 }
 
+/* ======================== BOOKING PASSED ALERT BANNER ======================== */
+.alert-passed-banner {
+    background: rgba(244, 63, 94, 0.08);
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition);
+}
+
+[data-bs-theme="dark"] .alert-passed-banner {
+    background: rgba(244, 63, 94, 0.12);
+    border-color: rgba(244, 63, 94, 0.3);
+}
+
+.alert-banner-icon {
+    font-size: 2.25rem;
+    line-height: 1;
+    animation: pulseWarning 2s infinite ease-in-out;
+}
+
+.alert-banner-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+.alert-banner-text {
+    font-size: 0.925rem;
+    line-height: 1.5;
+}
+
+.btn-irctc-cta {
+    border-radius: var(--radius-lg) !important;
+    padding: 0.6rem 1.25rem !important;
+    font-weight: 700;
+    box-shadow: 0 4px 15px -3px rgba(244, 63, 94, 0.4);
+    transition: all var(--transition) !important;
+}
+
+.btn-irctc-cta:hover {
+    background-color: #e11d48 !important;
+    border-color: #e11d48 !important;
+    box-shadow: 0 6px 20px -3px rgba(244, 63, 94, 0.6);
+    transform: translateY(-1px);
+}
+
+.btn-irctc-cta:active {
+    transform: scale(0.97) !important;
+}
+
+@keyframes pulseWarning {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+        filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.4));
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+}
+
+/* Passed Card result design adjustments */
+.card-result.booking-passed::before {
+    background: linear-gradient(90deg, var(--danger), #ff6b6b, var(--warning)) !important;
+}
+
+.card-result.booking-passed .countdown-number {
+    color: var(--danger) !important;
+}
+
+.card-result.booking-passed .countdown-separator {
+    color: var(--danger) !important;
+    opacity: 0.7;
+}
+
 /* ======================== COUNTDOWN ======================== */
 .countdown-wrapper {
     background: var(--primary-light);
@@ -908,6 +992,12 @@ html[data-bs-theme="dark"] .logo-dark {
     font-size: .8rem;
     color: var(--text-muted);
     font-weight: 500;
+}
+
+.footer-disclaimer {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+    opacity: 0.75;
 }
 
 /* ======================== BACK TO TOP ======================== */
